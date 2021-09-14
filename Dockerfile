@@ -19,7 +19,8 @@ RUN mkdir /root/execsnoop
 ENV PATH=$PATH:/usr/local/go/bin
 ENV GOPATH=/root/
 COPY execsnoop.go output.go /root/execsnoop
+COPY vimrc bashrc /root
 WORKDIR /root/execsnoop
 RUN go mod init execsnoop; go mod tidy; go build
 
-CMD /bin/bash
+CMD mount -t debugfs none /sys/kernel/debug && /bin/bash
